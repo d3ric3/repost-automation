@@ -33,8 +33,8 @@ async function main() {
     // Wait for the adv banner page to load
     await delay(4000);
 
-    // Click on the x button to close the adv banner
-    await page.click("div.sto_full_btn-close");
+    // // Click on the x button to close the adv banner
+    // await page.click("div.sto_full_btn-close");
 
     // Wait for login menu
     await page.waitForSelector('a[data-target="#loginModal"]');
@@ -72,6 +72,12 @@ async function main() {
 
     // Wait for the page to finish loading
     await delay(2000);
+
+    // Select display 300 listings on page
+    await page.select("#pagination", "600");
+
+    // Wait for the page to finish loading
+    await delay(4000);
 
     // Repost Rent and Sale every 30 mins
     while (true) {
