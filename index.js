@@ -31,27 +31,35 @@ async function main() {
     await page.goto("https://edgeprop.my");
 
     // Wait for the adv banner page to load
+    await page.waitForNavigation({ waitUntil: "domcontentloaded" });
     await delay(4000);
 
-    // // Click on the x button to close the adv banner
-    // await page.click("div.sto_full_btn-close");
+    try {
+      // Click on the x button to close the adv banner
+      await page.waitforselector("i.material-icons.x-button");
+      await page.click("i.material-icons.x-button");
+      console.log("Close Popup Banner.");
+    } catch (e) {
+      console.log("No Popup Banner.");
+    }
 
-    // Wait for login menu
-    await page.waitForSelector('a[data-target="#loginModal"]');
+    // Wait for Sign in button
+    // await page.waitForSelector('a ::-p-text(Sign in)');
+    await page.waitForSelector('nav[aria-label="Primary right"] > button');
 
-    // Click on login menu
-    await page.click('a[data-target="#loginModal"]');
+    // Click on Sign in
+    await page.click('nav[aria-label="Primary right"] > button');
 
     // Wait for login form popup model
-    await page.waitForSelector("div.login-form-container");
+    await page.waitForSelector("button ::-p-text(Login)");
 
     // Enter credentials and submit
-    await page.type('input[name="emailOrPhone"]', username);
+    await page.type('input[name="email"]', username);
     await page.type('input[name="password"]', password);
-    await page.click("button.login-button");
+    await page.click("button ::-p-text(Login)");
 
     // Wait for the login to complete
-    await page.waitForNavigation({ waitUntil: "networkidle2" });
+    await page.waitForNavigation({ waitUntil: "domcontentloaded" });
 
     // Navigate to dashboard
     await page.goto("https://list.edgeprop.my/#/dashboard");
@@ -73,8 +81,8 @@ async function main() {
     // Wait for the page to finish loading
     await delay(2000);
 
-    // Select display 300 listings on page
-    await page.select("#pagination", "600");
+    // // Select display 300 listings on page
+    // await page.select("#pagination", "600");
 
     // Wait for the page to finish loading
     await delay(4000);
@@ -110,13 +118,13 @@ async function repostRentListing(page) {
   await page.click("div.total_design:nth-child(2) > div");
 
   // Wait for the page to finish loading
-  await delay(2000);
+  await delay(5000);
 
   // Click select all checkbox
   await page.click("label.d-block.checkbox-pad");
 
   // Wait for the page to finish loading
-  await delay(2000);
+  await delay(3000);
 
   // Click Repost button
   await page.click("div.btn_width > button");
@@ -133,13 +141,13 @@ async function repostSaleListing(page) {
   await page.click("div.total_design:nth-child(1) > div");
 
   // Wait for the page to finish loading
-  await delay(2000);
+  await delay(5000);
 
   // Click select all checkbox
   await page.click("label.d-block.checkbox-pad");
 
   // Wait for the page to finish loading
-  await delay(2000);
+  await delay(3000);
 
   // Click Repost button
   await page.click("div.btn_width > button");
